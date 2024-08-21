@@ -29,7 +29,7 @@ yarn add winston @epegzz/winston-dev-console
 ## Usage TypeScript
 
 ```typescript
-import { createLogger, format, transports } from "winston";
+import { createLogger, format, transports, config } from "winston";
 import winstonDevConsole from "@epegzz/winston-dev-console";
 import util from "util";
 
@@ -43,6 +43,7 @@ log.add(
   winstonDevConsole.transport({
     showTimestamps: false,
     addLineSeparation: true,
+    logLevels: config.cli.levels
   })
 );
 
@@ -60,7 +61,7 @@ log.error(new Error("Unexpected error"));
 ## Usage JavaScript
 
 ```js
-const { createLogger, format, transports } = require("winston");
+const { createLogger, format, transports, config } = require("winston");
 const winstonDevConsole = require("@epegzz/winston-dev-console").default;
 const util = require("util");
 
@@ -74,18 +75,19 @@ log.add(
   winstonDevConsole.transport({
     showTimestamps: false,
     addLineSeparation: true,
+    logLevels: config.cli.levels
   })
 );
 
 log.silly("Logging initialized");
-log.debug("Debug an object", { make: "Ford", model: "Mustang", year: 1969 });
+log.prompt("Debug an object", { make: "Ford", model: "Mustang", year: 1969 });
 log.verbose("Returned value", { value: util.format });
 log.info("Information", {
   options: ["Lorem ipsum", "dolor sit amet"],
   values: ["Donec augue eros, ultrices."],
 });
 log.warn("Warning");
-log.error(new Error("Unexpected error"));
+log.emerg(new Error("Unexpected error"));
 ```
 
 ## API
