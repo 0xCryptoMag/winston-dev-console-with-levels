@@ -4,7 +4,7 @@ import { inspect } from 'util'
 import colors from 'colors/safe'
 import { Format, TransformableInfo } from 'logform'
 import { MESSAGE, SPLAT } from 'triple-beam'
-import { format as winstonFormat } from 'winston'
+import { format as winstonFormat, config } from 'winston'
 
 import calleeStore from './calleeStore'
 import { Callee, DevConsoleFormatOptions } from './types'
@@ -37,6 +37,9 @@ export class DevConsoleFormat {
         breakLength: 120,
         compact: Infinity,
       }
+    }
+    if (typeof this.opts.logLevels === 'undefined') {
+      this.opts.logLevels = config.npm.levels
     }
   }
 
@@ -240,7 +243,7 @@ export const format = (opts?: DevConsoleFormatOptions): Format => {
     winstonFormat.splat(),
     winstonFormat.json(),
     winstonFormat.colorize({ all: true }),
-    winstonFormat.padLevels(),
+    winstonFormat.padLevels({ levels: opts?.logLevels }),
     new DevConsoleFormat(opts)
   )
 }
