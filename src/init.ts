@@ -4,9 +4,14 @@ import calleeStore from './calleeStore'
 import { getCallee } from './getCallee'
 
 type LogLevel =
-  | 'error'
+  | 'emerg'
+  | 'alert'
+  | 'crit'
+  | 'warning'
   | 'warn'
+  | 'error'
   | 'help'
+  | 'notice'
   | 'data'
   | 'info'
   | 'debug'
@@ -51,9 +56,14 @@ export function init(logger: Logger): Logger {
   const patchedLogger: Logger = { ...logger } as Logger
   patchedLogger.add = logger.add.bind(logger)
 
-  patchedLogger.error = createPatchedLogger(logger, 'error')
+  patchedLogger.emerg = createPatchedLogger(logger, 'emerg')
+  patchedLogger.alert = createPatchedLogger(logger, 'alert')
+  patchedLogger.crit = createPatchedLogger(logger, 'crit')
+  patchedLogger.warning = createPatchedLogger(logger, 'warning')
   patchedLogger.warn = createPatchedLogger(logger, 'warn')
+  patchedLogger.error = createPatchedLogger(logger, 'error')
   patchedLogger.help = createPatchedLogger(logger, 'help')
+  patchedLogger.notice = createPatchedLogger(logger, 'notice')
   patchedLogger.data = createPatchedLogger(logger, 'data')
   patchedLogger.info = createPatchedLogger(logger, 'info')
   patchedLogger.debug = createPatchedLogger(logger, 'debug')
