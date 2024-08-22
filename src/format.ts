@@ -41,6 +41,9 @@ export class DevConsoleFormat {
     if (typeof this.opts.logLevels === 'undefined') {
       this.opts.logLevels = config.npm.levels
     }
+    if (typeof this.opts.showMeta === 'undefined') {
+      this.opts.showMeta = true
+    }
   }
 
   private inspector(value: any, metaLines: string[]): void {
@@ -122,7 +125,12 @@ export class DevConsoleFormat {
     if (Object.keys(splat).length > 0) {
       this.inspector(splat, metaLines)
     }
-    return metaLines
+
+    if (this.opts.showMeta) {
+      return metaLines
+    } else {
+      return []
+    }
   }
 
   private getCallee(): Callee | undefined {
