@@ -111,6 +111,8 @@ tableLog.add(
   })
 );
 
+// The first item of the array is reserved for the Table constructor argument which takes in an options object
+// {}, [], '', or null can be used to forego a header/formatting
 tableLog.info("Horizontal Table", [
     {head: ['TH 1 label', 'TH 2 label'], colWidths: [25, 25]},
     ['First value', 'Second value'],
