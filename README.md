@@ -34,7 +34,8 @@ import winstonDevConsole from "@epegzz/winston-dev-console";
 import util from "util";
 
 let log = createLogger({
-  level: "silly", // or use process.env.LOG_LEVEL
+  levels: config.syslog.levels,
+  level: "debug", // or use process.env.LOG_LEVEL
 });
 
 // Note: You probably only want to use winstonDevConsole during development
@@ -43,19 +44,19 @@ log.add(
   winstonDevConsole.transport({
     showTimestamps: false,
     addLineSeparation: true,
-    logLevels: config.cli.levels
+    logLevels: config.syslog.levels
   })
 );
 
-log.silly("Logging initialized");
+log.info("Logging initialized");
 log.debug("Debug an object", { make: "Ford", model: "Mustang", year: 1969 });
-log.verbose("Returned value", { value: util.format });
-log.info("Information", {
+log.notice("Returned value", { value: util.format });
+log.alert("Information", {
   options: ["Lorem ipsum", "dolor sit amet"],
   values: ["Donec augue eros, ultrices."],
 });
 log.warn("Warning");
-log.error(new Error("Unexpected error"));
+log.emerg(new Error("Unexpected error"));
 ```
 
 ## Usage JavaScript
@@ -66,7 +67,8 @@ const winstonDevConsole = require("@epegzz/winston-dev-console").default;
 const util = require("util");
 
 let log = createLogger({
-  level: "silly", // or use process.env.LOG_LEVEL
+  levels: config.syslog.levels,
+  level: "debug", // or use process.env.LOG_LEVEL
 });
 
 // Note: You probably only want to use winstonDevConsole during development
@@ -75,7 +77,7 @@ log.add(
   winstonDevConsole.transport({
     showTimestamps: false,
     addLineSeparation: true,
-    logLevels: config.cli.levels
+    logLevels: config.cli.levels,
   })
 );
 
@@ -89,6 +91,44 @@ log.info("Information", {
 log.warn("Warning");
 log.emerg(new Error("Unexpected error"));
 ```
+
+# Usage Tables
+
+```js
+let tableLog = createLogger({
+  level: "debug", // or use process.env.LOG_LEVEL
+  levels: config.syslog.levels
+});
+
+// Note: You probably only want to use winstonDevConsole during development
+tableLog = winstonDevConsole.init(tableLog);
+tableLog.add(
+  winstonDevConsole.transport({
+    showTimestamps: true,
+    addLineSeparation: true,
+    logLevels: config.syslog.levels,
+    table: true
+  })
+);
+
+tableLog.info("Horizontal Table", [
+    {head: ['TH 1 label', 'TH 2 label'], colWidths: [25, 25]},
+    ['First value', 'Second value'],
+    ['First value', 'Second value']
+]);
+tableLog.notice("Vertical Table", [
+    {},
+    { 'Some key': 'Some value' },
+    { 'Another key': 'Another value' }
+]);
+tableLog.debug("Cross Table", [
+    { head: [ '', 'Top Header 1', 'Top Header 2' ] },
+    { 'Left Header 1': [ 'Value Row 1 Col 1', 'Value Row 1 Col 2' ] },
+    { 'Left Header 2': [ 'Value Row 2 Col 1', 'Value Row 2 Col 2' ] }
+]);
+```
+
+#
 
 ## API
 
@@ -124,6 +164,28 @@ During development the timestamps are usually more noise then helpful, therefore
 Type: `Boolean`<br>
 Default: `false`<br>
 
+### options.logLevels
+
+Used to select the log level severity schema from the three options provided by triple-beam: npm, syslog, and cli<br>
+By default this is set to npm log levels
+<br><br>
+Type: `{[k: string]: number}`<br>
+Default: `winston.config.npm.levels`<br>
+
+## options.showMeta
+
+Wheather or not to show meta after the message, callee path, and optional timestamp
+<br><br>
+Type: `boolean`<br>
+Default: `true`<br>
+
+## options.table
+
+Wheather or not the meta lines after the message is outputted as a table rather than a string literal of an object<br>
+Use only when the output is expected to always be tablature. A second logger may be required for tables and non tables
+<br><br>
+Type: `boolean`
+Default: `false`
 
 ## Acknowledgements
 
