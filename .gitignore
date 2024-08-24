@@ -6,4 +6,4 @@ Thumbs.db
 /mutagen.yml
 /mutagen.yml.lock
 /dist/
-**/.env
+*.env

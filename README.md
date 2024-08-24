@@ -1,8 +1,10 @@
 # winston-dev-console
 
-A Winston@3 console format for development (based on [winston-console-format](https://github.com/duccio/winston-console-format)) that aims to improve NodeJS development UX by
+My personal additions to @epegzz's [winston-dev-console](https://github.com/epegzz/winston-dev-console.git)<br>
+(based on [winston-console-format](https://github.com/duccio/winston-console-format))
 * adding the source of the logging statement to the log output
 * optimizing readability of each log statement through log statement separation, output colorization and arg pretty printing
+* log outputs in util.inspection format, or as tables
    
 
 ## Demo
@@ -17,13 +19,13 @@ A Winston@3 console format for development (based on [winston-console-format](ht
 ## Install
 
 ```bash
-npm install winston @epegzz/winston-dev-console
+npm install winston @0xcryptomag/winston-plus
 ```
 
 or
 
 ```bash
-yarn add winston @epegzz/winston-dev-console
+yarn add winston @0xcryptomag/winston-plus
 ```
 <br>
 
@@ -192,4 +194,6 @@ Default: `false`
 
 ## Acknowledgements
 
-This project is inspired by and partly shamelessly copied from [winston-console-format](https://github.com/duccio/winston-console-format)
+This is a fork of @epegzz's [winston-dev-console](https://github.com/epegzz/winston-dev-console.git)
+
+His project based off of @duccio's [winston-console-format](https://github.com/duccio/winston-console-format)
