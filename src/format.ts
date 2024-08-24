@@ -126,11 +126,7 @@ export class DevConsoleFormat {
       this.inspector(splat, metaLines)
     }
 
-    if (this.opts.showMeta) {
-      return metaLines
-    } else {
-      return []
-    }
+    return metaLines
   }
 
   private getCallee(): Callee | undefined {
@@ -222,7 +218,7 @@ export class DevConsoleFormat {
     const index = (MESSAGE as unknown) as string
     const callee = this.getCallee()
 
-    const metaLines: string[] = [
+    const metaLines: string[] = !this.opts.showMeta ? [] : [
       ...this.getStackLines(info),
       ...this.getMetaLines(info),
     ]
