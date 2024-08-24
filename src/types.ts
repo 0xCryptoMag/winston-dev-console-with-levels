@@ -13,6 +13,7 @@ export interface DevConsoleFormatOptions {
   addLineSeparation?: boolean
   logLevels?: {[k: string]: number}
   showMeta?: boolean
+  table?: boolean
 }
 
 export type DevConsoleTransportOptions = DevConsoleFormatOptions

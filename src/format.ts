@@ -5,6 +5,7 @@ import colors from 'colors/safe'
 import { Format, TransformableInfo } from 'logform'
 import { MESSAGE, SPLAT } from 'triple-beam'
 import { format as winstonFormat, config } from 'winston'
+import Table from 'cli-table3'
 
 import calleeStore from './calleeStore'
 import { Callee, DevConsoleFormatOptions } from './types'
@@ -44,12 +45,27 @@ export class DevConsoleFormat {
     if (typeof this.opts.showMeta === 'undefined') {
       this.opts.showMeta = true
     }
+    if (typeof this.opts.table === 'undefined') {
+      this.opts.table = false
+    }
   }
 
   private inspector(value: any, metaLines: string[]): void {
     const inspector = inspect(value, this.opts.inspectOptions || {})
 
     inspector.split('\n').forEach((line) => {
+      metaLines.push(line)
+    })
+  }
+
+  private makeTable(value: any, metaLines: string[]): void {
+    const table = new Table(value[0])
+
+    table.push(...value.slice(1))
+
+    value = table.toString()
+
+    value.split('\n').forEach((line: string) => {
       metaLines.push(line)
     })
   }
@@ -120,10 +136,18 @@ export class DevConsoleFormat {
 
   private getMetaLines(info: TransformableInfo): string[] {
     const metaLines: string[] = []
-    const splat = { ...info[(SPLAT as unknown) as string][0] }
+    let splat = info[(SPLAT as unknown) as string][0]
 
-    if (Object.keys(splat).length > 0) {
-      this.inspector(splat, metaLines)
+    if (this.opts.table) {
+      if (Object.keys(splat). length > 0) {
+        this.makeTable(splat, metaLines)
+      }
+    } else {
+      splat = { ...splat }
+
+      if (Object.keys(splat).length > 0) {
+        this.inspector(splat, metaLines)
+      }
     }
 
     return metaLines
