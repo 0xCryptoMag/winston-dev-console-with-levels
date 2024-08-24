@@ -8,6 +8,7 @@ A Winston@3 console format for development (based on [winston-console-format](ht
 ## Demo
 
 ![](demo.png)
+![](demo3.png)
 
 ### Real world screenshot:
 
