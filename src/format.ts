@@ -241,11 +241,14 @@ export class DevConsoleFormat {
   public transform(info: TransformableInfo): TransformableInfo {
     const index = (MESSAGE as unknown) as string
     const callee = this.getCallee()
-
-    const metaLines: string[] = !this.opts.showMeta ? [] : [
-      ...this.getStackLines(info),
-      ...this.getMetaLines(info),
+    
+    let metaLines: string[] = [
+        ...this.getStackLines(info)
     ]
+
+    if (this.opts.showMeta) {
+        metaLines.push(...this.getMetaLines(info))
+    }
 
     const color = this.getColor(info)
 
